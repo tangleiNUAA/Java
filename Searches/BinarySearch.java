@@ -2,7 +2,7 @@ package Searches;
 
 import java.util.Arrays;
 import java.util.Random;
-import java.util.concurrent.ThreadLocalRandom
+import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.IntStream;
 
 import static java.lang.String.format;
@@ -38,7 +38,7 @@ class BinarySearch implements SearchAlgorithm {
      * @return index of the element
      */
     @Override
-    public  <T extends Comparable<T>> int find(T array[], T key) {
+    public  <T extends Comparable<T>> int find(T[] array, T key) {
         return search(array, key, 0, array.length);
     }
 
@@ -58,26 +58,25 @@ class BinarySearch implements SearchAlgorithm {
         int median = (left + right) >>> 1;
         int comp = key.compareTo(array[median]);
 
-        if (comp < 0) {
+        if (comp == 0) {
+            return median;
+        } else if (comp < 0) {
             return search(array, key, left, median - 1);
-        }
-
-        if (comp > 0) {
+        } else {
             return search(array, key, median + 1, right);
         }
-
-        return median;
     }
 
     // Driver Program
     public static void main(String[] args) {
         // Just generate data
         Random r = ThreadLocalRandom.current();
-        
+
         int size = 100;
         int maxElement = 100000;
-        
-        int[] integers = IntStream.generate(() -> r.nextInt(maxElement)).limit(size).sorted().toArray();
+
+        Integer[] integers = IntStream.generate(() -> r.nextInt(maxElement)).limit(size).sorted().boxed().toArray(Integer[]::new);
+
 
         // The element that should be found
         int shouldBeFound = integers[r.nextInt(size - 1)];
